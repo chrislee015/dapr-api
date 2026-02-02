@@ -1,0 +1,9 @@
+# Top-level compose that includes each service's compose file.
+# Requires Docker Compose v2.20+ (compose-spec include).
+include:
+  - ./docker-compose.infra.yml
+  - ./services/gateway/docker-compose.yml
+  - ./services/api/docker-compose.yml
+  - ./services/database/docker-compose.yml
+  - ./services/batch/docker-compose.yml
+  - ./services/messaging/docker-compose.yml

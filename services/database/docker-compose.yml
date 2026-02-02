@@ -1,0 +1,36 @@
+name: database-stack
+
+services:
+  database:
+    build:
+      context: ../..
+      dockerfile: services/database/Dockerfile
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "8082:8082"
+    networks: [appnet]
+    depends_on: [database-dapr]
+
+  database-dapr:
+    image: "daprio/daprd:1.12.4"
+    command: [
+      "./daprd",
+      "-app-id", "database-service",
+      "-app-port", "8082",
+      "-dapr-http-port", "3502",
+      "-dapr-grpc-port", "50002",
+      "-components-path", "/components"
+    ]
+    volumes:
+      - ../../dapr/components:/components:ro
+    ports:
+      - "3502:3502"
+      - "50002:50002"
+    networks: [appnet]
+    depends_on: [redis, kafka, placement]
+
+networks:
+  appnet:
+    name: spring-monorepo-net
+    external: true

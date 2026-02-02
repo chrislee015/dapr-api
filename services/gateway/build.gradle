@@ -1,0 +1,13 @@
+plugins {
+    id "org.springframework.boot"
+    //    id "io.spring.dependency-management"
+}
+
+dependencies {
+    implementation(project(":common"))
+    implementation(libs.bundles.gateway.service)
+    implementation(libs.spring.cloud.config.client)
+    implementation(libs.bundles.dapr)
+
+   testImplementation(libs.spring.boot.test)
+}

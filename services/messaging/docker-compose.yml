@@ -1,0 +1,36 @@
+name: messaging-stack
+
+services:
+  messaging:
+    build:
+      context: ../..
+      dockerfile: services/messaging/Dockerfile
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "8084:8084"
+    networks: [appnet]
+    depends_on: [messaging-dapr]
+
+  messaging-dapr:
+    image: "daprio/daprd:1.12.4"
+    command: [
+      "./daprd",
+      "-app-id", "messaging-service",
+      "-app-port", "8084",
+      "-dapr-http-port", "3504",
+      "-dapr-grpc-port", "50004",
+      "-components-path", "/components"
+    ]
+    volumes:
+      - ../../dapr/components:/components:ro
+    ports:
+      - "3504:3504"
+      - "50004:50004"
+    networks: [appnet]
+    depends_on: [redis, kafka, placement]
+
+networks:
+  appnet:
+    name: spring-monorepo-net
+    external: true

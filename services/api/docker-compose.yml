@@ -1,0 +1,36 @@
+name: api-stack
+
+services:
+  api:
+    build:
+      context: ../..
+      dockerfile: services/api/Dockerfile
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "8080:8080"
+    networks: [appnet]
+    depends_on: [api-dapr]
+
+  api-dapr:
+    image: "daprio/daprd:1.12.4"
+    command: [
+      "./daprd",
+      "-app-id", "api-service",
+      "-app-port", "8080",
+      "-dapr-http-port", "3500",
+      "-dapr-grpc-port", "50000",
+      "-components-path", "/components"
+    ]
+    volumes:
+      - ../../dapr/components:/components:ro
+    ports:
+      - "3500:3500"
+      - "50000:50000"
+    networks: [appnet]
+    depends_on: [redis, kafka, placement]
+
+networks:
+  appnet:
+    name: spring-monorepo-net
+    external: true

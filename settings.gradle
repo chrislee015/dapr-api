@@ -1,0 +1,11 @@
+rootProject.name = "spring-monorepo"
+
+include(
+    "common",
+    "config-server",
+    "services:gateway",
+    "services:api",
+    "services:database",
+    "services:batch",
+    "services:messaging"
+)

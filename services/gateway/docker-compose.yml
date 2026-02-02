@@ -1,0 +1,36 @@
+name: gateway-stack
+
+services:
+  gateway:
+    build:
+      context: ../..
+      dockerfile: services/gateway/Dockerfile
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "8081:8081"
+    networks: [appnet]
+    depends_on: [gateway-dapr]
+
+  gateway-dapr:
+    image: "daprio/daprd:1.12.4"
+    command: [
+      "./daprd",
+      "-app-id", "gateway-service",
+      "-app-port", "8081",
+      "-dapr-http-port", "3501",
+      "-dapr-grpc-port", "50001",
+      "-components-path", "/components"
+    ]
+    volumes:
+      - ../../dapr/components:/components:ro
+    ports:
+      - "3501:3501"
+      - "50001:50001"
+    networks: [appnet]
+    depends_on: [redis, kafka, placement]
+
+networks:
+  appnet:
+    name: spring-monorepo-net
+    external: true

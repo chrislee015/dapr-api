@@ -1,0 +1,137 @@
+import com.example.build.BomGeneratorPlugin
+import com.example.build.DependencyPackagerPlugin
+
+plugins {
+    id "org.springframework.boot" version "4.0.2" apply false
+//    //    id "io.spring.dependency-management" version "1.1.6" apply false
+//    id "java" apply false
+//    id "java-library" apply false
+}
+
+subprojects {
+    apply plugin: "java"
+    apply plugin: BomGeneratorPlugin
+    apply plugin: DependencyPackagerPlugin
+
+    repositories { mavenCentral() }
+
+    java {
+        toolchain {
+            // You asked for Java 25 features.
+            languageVersion = JavaLanguageVersion.of(25)
+        }
+    }
+
+    tasks.withType(Test).configureEach { useJUnitPlatform() }
+}
+
+//
+//// ========================================================
+//// PLUGIN 1: BOM Generator (Console, Text, and CSV)
+//// ========================================================
+//class BomGeneratorPlugin implements Plugin<Project> {
+//    void apply(Project project) {
+//        project.tasks.register("generateBOM") {
+//            group = "reporting"
+//            description = "Generates a Bill of Materials (BOM) in Text and CSV formats."
+//
+//            doLast {
+//                def dependencies = [:]
+//
+//// 1. Resolve Dependencies
+//                try {
+//                    project.configurations.getByName("runtimeClasspath").resolvedConfiguration.resolvedArtifacts.each { artifact ->
+//                        def id = artifact.moduleVersion.id
+//                        dependencies[id.group + ":" + id.name] = id.version
+//                    }
+//                } catch (Exception e) {
+//                    println "Warning: Could not resolve runtimeClasspath. Ensure you have the Java plugin applied."
+//                    return
+//                }
+//
+//                def sortedDeps = dependencies.sort()
+//
+//// 2. Prepare Output Content
+//// --- Text Format ---
+//                def textSb = new StringBuilder()
+//                textSb.append("========================================\n")
+//                textSb.append(" BILL OF MATERIALS (BOM) \n")
+//                textSb.append(" Project: ${project.name}\n")
+//                textSb.append("========================================\n")
+//                textSb.append(String.format("%-50s | %-15s\n", "LIBRARY", "VERSION"))
+//                textSb.append("---------------------------------------------------+----------------\n")
+//
+//                sortedDeps.each { name, version ->
+//                    textSb.append(String.format("%-50s | %-15s\n", name, version))
+//                }
+//                textSb.append("========================================\n")
+//                textSb.append("Total Dependencies: ${dependencies.size()}\n")
+//
+//// --- CSV Format ---
+//                def csvSb = new StringBuilder()
+//                csvSb.append("Group,Artifact,Version\n") // Header
+//                sortedDeps.each { name, version ->
+//                    def parts = name.split(":")
+//                    csvSb.append("${parts[0]},${parts[1]},${version}\n")
+//                }
+//
+//// 3. Write to Files
+//                def buildDir = project.layout.buildDirectory.get().asFile
+//
+//// Write Text Report
+//                def textFile = new File(buildDir, "bom.txt")
+//                textFile.parentFile.mkdirs()
+//                textFile.text = textSb.toString()
+//
+//// Write CSV Report
+//                def csvFile = new File(buildDir, "bom.csv")
+//                csvFile.text = csvSb.toString()
+//
+//// 4. Print Summary to Console
+//                println textSb.toString()
+//                println "[✓] BOM (Text) saved to: ${textFile.absolutePath}"
+//                println "[✓] BOM (CSV) saved to: ${csvFile.absolutePath}"
+//            }
+//        }
+//    }
+//}
+//
+//// ========================================================
+//// PLUGIN 2: Dependency Packager (Tar.gz)
+//// ========================================================
+//class DependencyPackagerPlugin implements Plugin<Project> {
+//    void apply(Project project) {
+//// We use the built-in 'Tar' task type for efficiency
+//        project.tasks.register("packageDependencies", Tar) {
+//            group = "distribution"
+//            description = "Packages all runtime dependencies into a single tar.gz file."
+//
+//// Define the output filename: e.g., my-project-dependencies.tar.gz
+//            archiveBaseName = "${project.name}-dependencies"
+//            compression = Compression.GZIP
+//            destinationDirectory = project.layout.buildDirectory
+//
+//// We wrap this in a closure to ensure it evaluates lazily
+//// (only when the task runs, so the graph is ready)
+//            doFirst {
+//                println "Packaging dependencies..."
+//            }
+//
+//// Take all files from the runtime classpath
+//            from(project.configurations.getByName("runtimeClasspath")) {
+//// Optional: Flatten them into a 'libs' folder inside the tar
+//                into "libs"
+//            }
+//
+//            doLast {
+//                println "[✓] Dependencies packaged: ${archiveFile.get().asFile.absolutePath}"
+//            }
+//        }
+//    }
+//}
+//
+//// ========================================================
+//// APPLY PLUGINS
+//// ========================================================
+//apply plugin: BomGeneratorPlugin
+//apply plugin: DependencyPackagerPlugin

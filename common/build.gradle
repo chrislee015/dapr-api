@@ -1,0 +1,9 @@
+plugins { id "java-library" }
+
+dependencies {
+    api(libs.bundles.cqrs.core)
+    api(libs.mapstruct)
+
+    annotationProcessor(libs.lombok)
+    annotationProcessor(libs.mapstruct)
+}

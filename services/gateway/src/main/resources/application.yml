@@ -1,0 +1,39 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      routes:
+        - id: api-service
+          uri: http://gateway-dapr:3501
+          predicates:
+            - Path=/api/**
+          filters:
+            - RewritePath=/api/(?<segment>.*), /v1.0/invoke/api-service/method/${segment}
+        - id: database-service
+          uri: http://gateway-dapr:3501
+          predicates:
+            - Path=/db/**
+          filters:
+            - RewritePath=/db/(?<segment>.*), /v1.0/invoke/database-service/method/${segment}
+        - id: batch-service
+          uri: http://gateway-dapr:3501
+          predicates:
+            - Path=/batch/**
+          filters:
+            - RewritePath=/batch/(?<segment>.*), /v1.0/invoke/batch-service/method/${segment}
+        - id: messaging-service
+          uri: http://gateway-dapr:3501
+          predicates:
+            - Path=/msg/**
+          filters:
+            - RewritePath=/msg/(?<segment>.*), /v1.0/invoke/messaging-service/method/${segment}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
