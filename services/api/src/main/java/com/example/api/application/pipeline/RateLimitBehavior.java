@@ -1,6 +1,6 @@
 package com.example.api.application.pipeline;
 
-import com.example.common.cqrs.CqrsMessage;
+import com.example.common.cqrs.Request;
 import com.example.common.cqrs.pipeline.PipelineBehavior;
 
 import java.util.Map;
@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Semaphore;
 import java.util.function.Supplier;
 
-public class RateLimitBehavior implements PipelineBehavior<CqrsMessage> {
+public class RateLimitBehavior implements PipelineBehavior<Request> {
 
     private final Map<Class<?>, Semaphore> limits = new ConcurrentHashMap<>();
 
@@ -17,7 +17,7 @@ public class RateLimitBehavior implements PipelineBehavior<CqrsMessage> {
     }
 
     @Override
-    public Object apply(CqrsMessage message, Supplier<Object> next) {
+    public Object apply(Request message, Supplier<Object> next) {
         Semaphore sem = limits.get(message.getClass());
         if (sem == null) return next.get();
 

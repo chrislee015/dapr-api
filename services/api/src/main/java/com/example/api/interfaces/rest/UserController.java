@@ -1,8 +1,8 @@
 package com.example.api.interfaces.rest;
 
-import com.example.api.application.messages.CreateUserCommand;
-import com.example.api.application.messages.GetUserQuery;
-import com.example.api.application.messages.UserResponse;
+import com.example.api.application.messages.commands.CreateUserCommand;
+import com.example.api.application.messages.queries.GetUserQuery;
+import com.example.api.application.messages.response.UserResponse;
 import com.example.common.cqrs.bus.CqrsBus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

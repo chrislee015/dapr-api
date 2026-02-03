@@ -1,7 +1,7 @@
 package com.example.api.application.cqrs;
 
-import com.example.common.cqrs.CqrsMessage;
+import com.example.common.cqrs.Request;
 
 public interface HandlerRegistry {
-    Object handle(CqrsMessage message);
+    Object handle(Request message);
 }

@@ -1,6 +1,6 @@
 package com.example.api.application.pipeline;
 
-import com.example.common.cqrs.CqrsMessage;
+import com.example.common.cqrs.Request;
 import com.example.common.cqrs.pipeline.PipelineBehavior;
 
 import java.time.Duration;
@@ -8,7 +8,7 @@ import java.time.Instant;
 import java.util.concurrent.TimeoutException;
 import java.util.function.Supplier;
 
-public class TimeoutBehavior implements PipelineBehavior<CqrsMessage> {
+public class TimeoutBehavior implements PipelineBehavior<Request> {
 
     private final Duration maxDuration;
 
@@ -17,7 +17,7 @@ public class TimeoutBehavior implements PipelineBehavior<CqrsMessage> {
     }
 
     @Override
-    public Object apply(CqrsMessage message, Supplier<Object> next) {
+    public Object apply(Request message, Supplier<Object> next) {
         Instant start = Instant.now();
         Object result = next.get();
         Duration elapsed = Duration.between(start, Instant.now());

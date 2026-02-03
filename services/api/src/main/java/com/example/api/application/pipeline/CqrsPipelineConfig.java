@@ -1,7 +1,7 @@
 package com.example.api.application.pipeline;
 
-import com.example.api.application.messages.CreateUserCommand;
-import com.example.common.cqrs.CqrsMessage;
+import com.example.api.application.messages.commands.CreateUserCommand;
+import com.example.common.cqrs.Request;
 import com.example.common.cqrs.pipeline.PipelineBehavior;
 import io.dapr.client.DaprClient;
 import io.micrometer.core.instrument.MeterRegistry;
@@ -19,33 +19,33 @@ import java.util.Map;
 public class CqrsPipelineConfig {
 
     @Bean @Order(1)
-    PipelineBehavior<CqrsMessage> correlation() { return new CorrelationBehavior(); }
+    PipelineBehavior<Request> correlation() { return new CorrelationBehavior(); }
 
     @Bean @Order(2)
-    PipelineBehavior<CqrsMessage> tenant() { return new TenantContextBehavior(); }
+    PipelineBehavior<Request> tenant() { return new TenantContextBehavior(); }
 
     @Bean @Order(3)
-    PipelineBehavior<CqrsMessage> security() { return new SecurityBehavior(); }
+    PipelineBehavior<Request> security() { return new SecurityBehavior(); }
 
     @Bean @Order(4)
-    PipelineBehavior<CqrsMessage> rateLimit() { return new RateLimitBehavior(Map.of(CreateUserCommand.class, 20)); }
+    PipelineBehavior<Request> rateLimit() { return new RateLimitBehavior(Map.of(CreateUserCommand.class, 20)); }
 
     @Bean @Order(5)
-    PipelineBehavior<CqrsMessage> validation(Validator validator) { return new ValidationBehavior(validator); }
+    PipelineBehavior<Request> validation(Validator validator) { return new ValidationBehavior(validator); }
 
     @Bean @Order(6)
-    PipelineBehavior<CqrsMessage> idempotency(DaprClient dapr) { return new DaprIdempotencyBehavior(dapr); }
+    PipelineBehavior<Request> idempotency(DaprClient dapr) { return new DaprIdempotencyBehavior(dapr); }
 
     @Bean @Order(7)
     @ConditionalOnBean(PlatformTransactionManager.class)
-    PipelineBehavior<CqrsMessage> tx(PlatformTransactionManager txm) { return new TransactionBehavior(txm); }
+    PipelineBehavior<Request> tx(PlatformTransactionManager txm) { return new TransactionBehavior(txm); }
 
     @Bean @Order(8)
-    PipelineBehavior<CqrsMessage> timeout() { return new TimeoutBehavior(Duration.ofSeconds(2)); }
+    PipelineBehavior<Request> timeout() { return new TimeoutBehavior(Duration.ofSeconds(2)); }
 
     @Bean @Order(9)
-    PipelineBehavior<CqrsMessage> metrics(MeterRegistry registry) { return new MetricsBehavior(registry); }
+    PipelineBehavior<Request> metrics(MeterRegistry registry) { return new MetricsBehavior(registry); }
 
     @Bean @Order(10)
-    PipelineBehavior<CqrsMessage> logging() { return new LoggingBehavior(); }
+    PipelineBehavior<Request> logging() { return new LoggingBehavior(); }
 }

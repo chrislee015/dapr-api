@@ -1,6 +1,6 @@
 package com.example.api.application.pipeline;
 
-import com.example.common.cqrs.CqrsMessage;
+import com.example.common.cqrs.Request;
 import com.example.common.cqrs.pipeline.PipelineBehavior;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,12 +9,12 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.function.Supplier;
 
-public class LoggingBehavior implements PipelineBehavior<CqrsMessage> {
+public class LoggingBehavior implements PipelineBehavior<Request> {
 
     private static final Logger log = LoggerFactory.getLogger(LoggingBehavior.class);
 
     @Override
-    public Object apply(CqrsMessage message, Supplier<Object> next) {
+    public Object apply(Request message, Supplier<Object> next) {
         Instant start = Instant.now();
         try {
             Object result = next.get();

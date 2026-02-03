@@ -1,6 +1,6 @@
 package com.example.api.application.pipeline;
 
-import com.example.common.cqrs.CqrsMessage;
+import com.example.common.cqrs.Request;
 import com.example.common.cqrs.markers.SecuredCommand;
 import com.example.common.cqrs.pipeline.PipelineBehavior;
 import org.springframework.security.access.AccessDeniedException;
@@ -10,9 +10,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.function.Supplier;
 
-public class SecurityBehavior implements PipelineBehavior<CqrsMessage> {
+public class SecurityBehavior implements PipelineBehavior<Request> {
     @Override
-    public Object apply(CqrsMessage message, Supplier<Object> next) {
+    public Object apply(Request message, Supplier<Object> next) {
         if (!(message instanceof SecuredCommand secured)) return next.get();
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

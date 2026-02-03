@@ -1,7 +1,7 @@
 package com.example.common.cqrs.bus;
 
-import com.example.common.cqrs.CqrsMessage;
+import com.example.common.cqrs.Request;
 
 public interface CqrsBus {
-    <R> R dispatch(CqrsMessage message);
+    <R> R dispatch(Request message);
 }

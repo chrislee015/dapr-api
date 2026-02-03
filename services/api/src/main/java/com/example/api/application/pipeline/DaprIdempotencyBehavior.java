@@ -1,6 +1,6 @@
 package com.example.api.application.pipeline;
 
-import com.example.common.cqrs.CqrsMessage;
+import com.example.common.cqrs.Request;
 import com.example.common.cqrs.markers.IdempotentCommand;
 import com.example.common.cqrs.pipeline.PipelineBehavior;
 import io.dapr.client.DaprClient;
@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-public class DaprIdempotencyBehavior implements PipelineBehavior<CqrsMessage> {
+public class DaprIdempotencyBehavior implements PipelineBehavior<Request> {
 
     private final DaprClient dapr;
     private static final Logger log = LoggerFactory.getLogger(DaprIdempotencyBehavior.class);
@@ -22,7 +22,7 @@ public class DaprIdempotencyBehavior implements PipelineBehavior<CqrsMessage> {
     private static final String IDEMPOTENCY_STATE_STORE = "statestore";
 
     @Override
-    public Object apply(CqrsMessage message, Supplier<Object> next) {
+    public Object apply(Request message, Supplier<Object> next) {
         if (!(message instanceof IdempotentCommand cmd)) return next.get();
 
         if (isCommandAlreadyProcessed(cmd)) return null;

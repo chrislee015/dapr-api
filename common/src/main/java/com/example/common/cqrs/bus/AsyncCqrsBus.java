@@ -1,9 +1,9 @@
 package com.example.common.cqrs.bus;
 
-import com.example.common.cqrs.CqrsMessage;
+import com.example.common.cqrs.Request;
 
 import java.util.concurrent.CompletionStage;
 
 public interface AsyncCqrsBus {
-    <R> CompletionStage<R> dispatchAsync(CqrsMessage message);
+    <R> CompletionStage<R> dispatchAsync(Request message);
 }
