@@ -24,7 +24,7 @@ public class CqrsPipelineConfig {
     @Bean @Order(2)
     PipelineBehavior<Request> tenant() { return new TenantContextBehavior(); }
 
-    @Bean @Order(3)
+    @Bean(name = "controller_security") @Order(3)
     PipelineBehavior<Request> security() { return new SecurityBehavior(); }
 
     @Bean @Order(4)

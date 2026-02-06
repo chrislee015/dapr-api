@@ -1,0 +1,30 @@
+### GET request to example server
+GET https://examples.http-client.intellij.net/get
+    ?generated-in=IntelliJ IDEA
+
+###
+
+# curl -X POST http://localhost:8180/realms/my-realm/protocol/openid-connect/token
+#  -H "Content-Type: application/x-www-form-urlencoded"
+#  -d "client_id=my-spring-api"
+#  -d "client_secret=YOUR_CLIENT_SECRET"
+#  -d "grant_type=password"
+#  -d "username=john"
+#  -d "password=secret"
+POST http://localhost:8180/realms/Spring_Sandbox/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+client_id = spring-api-gateway &
+client_secret = uwbAXNvQx6v0u3NSgIOHAzREqLl16aSA &
+grant_type = client_credentials &
+username = john &
+password = secret
+
+###
+
+# curl http://localhost:8080/user/me
+#  -H "Authorization: Bearer <ACCESS_TOKEN>"
+GET http://localhost:8081/api/admin/test
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJGVGhFblByMmE1SC0wWWpUZXlxVVdGbUxmTE00VjQ0NklWblpfV3paV3JzIn0.eyJleHAiOjE3NzAzOTAyNTgsImlhdCI6MTc3MDM4OTk1OCwianRpIjoiOTE4MjkxYmUtNjZmMy00MThhLTk0OGItNjdjMzNmYjI1NzU1IiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MTgwL3JlYWxtcy9TcHJpbmdfU2FuZGJveCIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiJjM2M0NDdhYi00MTgzLTRhYzYtOWUyNy1kZTNkNThkZTkyNDciLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJzcHJpbmctYXBpLWdhdGV3YXkiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIioiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMtc3ByaW5nX3NhbmRib3giLCJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsic3ByaW5nLWFwaS1nYXRld2F5Ijp7InJvbGVzIjpbInVtYV9wcm90ZWN0aW9uIl19LCJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImNsaWVudEhvc3QiOiIxNzIuMTcuMC4xIiwicm9sZXMiOlsidW1hX3Byb3RlY3Rpb24iLCJkZWZhdWx0LXJvbGVzLXNwcmluZ19zYW5kYm94Iiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJzZXJ2aWNlLWFjY291bnQtc3ByaW5nLWFwaS1nYXRld2F5IiwiY2xpZW50QWRkcmVzcyI6IjE3Mi4xNy4wLjEiLCJjbGllbnRfaWQiOiJzcHJpbmctYXBpLWdhdGV3YXkiLCJnYXRld2F5IjpbIlJPTEVfdW1hX3Byb3RlY3Rpb24iXX0.o5aHISgsRgPl8VfHcBpJXxmIXAGR2p2qj_Wp6zPpN4p7dTBoup_x4FcsmKaBgRvkJpmzLk0HNDryC_meOO3UChUAZTu_aZ3ItluSdElAa7do3fqG9HiYb9VQHSEkeBhRMfjzC4nRtN47vP9uPdhCBCzHILRKC0bZ-eVEtgy4nrr0DmvPyBk-LjzVipbu0CnyTWzG18kToJMzp--lQ7KTVSVQL-o09hCjgdgV_u83OEWOrU_WCNtYb5mw2-M1Wo1ZYWaj9A21qFIwhkIeKybescxFF4QmpV0dXBEjH_C6j_D627wF6KG91UpIjjwIiOlIRpl3jo5mvjxi6pahL83Fsw
+
+###

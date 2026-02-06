@@ -4,9 +4,15 @@ server:
 spring:
   application:
     name: api
+  security:
+    oauth2:
+      resource server:
+        jwt:
+          issuer-uri: http://localhost:8180/realms/Spring_Sandbox
 
 management:
   endpoints:
     web:
       exposure:
         include: health,info,prometheus
+
